@@ -14,7 +14,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
-        <li class="nav-item">
+        <li class="nav-item" routerLinkActive="active">
           <a
             class="nav-link"
             [routerLink]="['/']"
@@ -24,12 +24,20 @@
           >Inicio</a
           >
         </li>
-        <li class="nav-item">
+        <li class="nav-item" routerLinkActive="active">
           <a
             class="nav-link"
             [routerLink]="['/hola-mundo']"
             routerLinkActive="active"
           >Hola Mundo</a
+          >
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a
+            class="nav-link"
+            [routerLink]="['/empresas']"
+            routerLinkActive="active"
+          >Empresas</a
           >
         </li>
       </ul>
