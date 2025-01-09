@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { BookService } from '../../services/books.service';
 import { Books } from '../../models/books';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+
 
 @Component({
   selector: 'app-books-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './books-list.component.html',
   styleUrls: ['./books-list.component.css']
 })
@@ -24,4 +26,5 @@ export class BooksListComponent implements OnInit {
   deleteBooks(id: string): void {
     this.bookService.deleteBook(id);
   }
+
 }
