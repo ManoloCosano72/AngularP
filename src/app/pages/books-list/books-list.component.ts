@@ -23,7 +23,7 @@ export class BooksListComponent implements OnInit {
     });
   }
 
-  deleteBooks(id: string): void {
+  deleteBooks(id: string | undefined): void {
     this.bookService.deleteBook(id);
   }
 

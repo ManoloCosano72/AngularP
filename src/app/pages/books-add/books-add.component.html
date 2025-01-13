@@ -1,18 +1,9 @@
 <section class="container mt-4">
-  <h2 class="">Añadir empresa</h2>
-  <app-notification *ngIf="showAlert" [alertClass]="alertClass" [alertMessage]="alertMessage"/>
+  <h2 class="">Add Book</h2>
+  <app-notification *ngIf="showAlert" [alertClass]="alertClass" [alertMessage]="alertMessage"></app-notification>
   <form [formGroup]="booksForm" (submit)="submitBooks()">
     <div class="form-group mb-4">
-      <label for="id">id</label>
-      <input
-        class="form-control"
-        id="id"
-        type="text"
-        formControlName="id"
-      />
-    </div>
-    <div class="form-group mb-4">
-      <label for="isbn">isbn</label>
+      <label for="isbn">ISBN</label>
       <input
         class="form-control"
         id="isbn"
@@ -21,7 +12,7 @@
       />
     </div>
     <div class="form-group mb-4">
-      <label for="title">title</label>
+      <label for="title">Title</label>
       <input
         class="form-control"
         id="title"
@@ -29,8 +20,18 @@
         formControlName="title"
       />
     </div>
+
     <div class="form-group mb-4">
-      <label for="description">description</label>
+      <label for="author">Author</label>
+      <input
+        class="form-control"
+        id="author"
+        type="text"
+        formControlName="author"
+      />
+    </div>
+    <div class="form-group mb-4">
+      <label for="description">Description</label>
       <input
         class="form-control"
         id="description"
@@ -39,7 +40,7 @@
       />
     </div>
     <div class="form-group mb-4">
-      <label for="cover">cover</label>
+      <label for="cover">Cover</label>
       <input
         class="form-control"
         id="cover"
@@ -48,7 +49,7 @@
       />
     </div>
     <div class="form-group mb-4">
-      <label for="price">price</label>
+      <label for="price">Price</label>
       <input
         class="form-control"
         id="price"
@@ -57,7 +58,7 @@
       />
     </div>
     <div class="form-group mb-4">
-      <label for="pages">pages</label>
+      <label for="pages">Pages</label>
       <input
         class="form-control"
         id="pages"

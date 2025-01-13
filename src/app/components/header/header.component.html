@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Angular FCT</a>
+    <a class="navbar-brand" href="#">Home</a>
     <button
       class="navbar-toggler"
       type="button"
@@ -21,23 +21,31 @@
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: true }"
             aria-current="page"
-          >Inicio</a
+          ></a
           >
         </li>
         <li class="nav-item" routerLinkActive="active">
           <a
             class="nav-link"
-            [routerLink]="['/hola-mundo']"
+            [routerLink]="['/books/add']"
             routerLinkActive="active"
-          >Hola Mundo</a
+          >Add Books</a
           >
         </li>
         <li class="nav-item" routerLinkActive="active">
           <a
             class="nav-link"
-            [routerLink]="['/empresas']"
+            [routerLink]="['/books/list']"
             routerLinkActive="active"
-          >Empresas</a
+          >List Books</a
+          >
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a
+            class="nav-link"
+            [routerLink]="['/books/edit']"
+            routerLinkActive="active"
+          >Edit Books</a
           >
         </li>
       </ul>

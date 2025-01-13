@@ -2,13 +2,12 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-notification',
-  standalone: true,
-  imports: [],
   templateUrl: './notification.component.html',
-  styleUrl: './notification.component.css'
+  standalone: true,
+  styleUrls: ['./notification.component.css']
 })
 export class NotificationComponent {
-  @Input() alertClass: String = "";
-  @Input() alertMessage: String = "";
-
+  @Input() alertMessage: string = '';
+  @Input() alertClass: string = '';
+  @Input() showAlert: boolean = false;
 }

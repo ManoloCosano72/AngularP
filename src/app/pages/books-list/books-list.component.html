@@ -3,31 +3,49 @@
   <table *ngIf="books.length > 0" class="table table-striped">
     <thead class="table-dark">
     <tr>
-      <th scope="col">Id</th>
       <th scope="col">ISBN</th>
       <th scope="col">Title</th>
       <th scope="col">Author</th>
+      <th scope="col">Description</th>
+      <th scope="col">Cover</th>
+      <th scope="col">Price</th>
+      <th scope="col">Pages</th>
       <th scope="col">Actions</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let book of books">
-      <td>{{ book.id }}</td>
       <td>{{ book.isbn }}</td>
       <td>{{ book.title }}</td>
       <td>{{ book.author }}</td>
+      <td>{{ book.description }}</td>
+      <td>{{ book.cover }}</td>
+      <td>{{ book.price }}</td>
+      <td>{{ book.pages }}</td>
       <td>
         <div class="d-flex flex-row gap-2 align-items-center">
-          <button (click)="deleteBooks(book.id!)" class="btn btn-danger btn-sm">
+          <!-- Botón de eliminar -->
+          <button (click)="deleteBooks(book.id)" class="btn btn-danger btn-sm">
             <i class="bi bi-trash"></i>
             <span class="d-none d-md-inline-flex ps-2">Eliminar</span>
           </button>
+          <!-- Botón de editar -->
+          <a [routerLink]="['/books/edit', book.id]" class="btn btn-warning btn-sm">
+            <i class="bi bi-pencil"></i>
+            <span class="d-none d-md-inline-flex ps-2">Editar</span>
+          </a>
         </div>
       </td>
     </tr>
     </tbody>
   </table>
+  <!-- Mensaje si no hay libros -->
+  <div *ngIf="books.length === 0" class="alert alert-info mt-4" role="alert">
+    No hay libros disponibles. Añade uno usando el botón de abajo.
+  </div>
   <div class="d-grid gap-2 d-md-block mt-3">
-    <a [routerLink]="['/books/add']" class="btn btn-primary" href="#" role="button"><i class="bi bi-plus-lg"></i> Add book</a>
+    <a [routerLink]="['/books/add']" class="btn btn-primary" role="button">
+      <i class="bi bi-plus-lg"></i> Add book
+    </a>
   </div>
 </div>
