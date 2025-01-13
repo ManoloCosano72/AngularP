@@ -1,60 +1,66 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { BookService } from '../../services/books.service';
 import { Books } from '../../models/books';
-import { ActivatedRoute } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { NotificationComponent } from "../../components/notification/notification.component";
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-books-edit',
-  standalone: true,
-  imports: [CommonModule, FormsModule, NotificationComponent],
   templateUrl: './books-edit.component.html',
-  styleUrl: './books-edit.component.css'
+  standalone: true,
+  imports: [
+    FormsModule
+  ],
+  styleUrls: ['./books-edit.component.css']
 })
-export class BooksEditComponent {
-  books: Books = { id: '', isbn: '', title: '', author: '', description: '',cover:'', price: 0,pages: 0};
-  id: string = '';
+export class BooksEditComponent implements OnInit {
+  books: Books = {} as Books;
+  bookId: string | null = null;
+  alertMessage: string = '';
+  alertClass: string = '';
   showAlert: boolean = false;
-  alertMessage: string = "";
-  alertClass: string = "";
 
-  constructor(private booksService: BookService, private route: ActivatedRoute) {
-    this.id = this.route.snapshot.params['id'];
-    if (this.id) {
-      // Obtener los detalles de la empresa desde Firestore
-      console.log(this.id);
-      this.booksService.getBook(this.id).subscribe({
-        error: (error) => {
-          this.alertMessage = `Error al cargar el libro: ${error}`;
-          this.alertClass = "danger";
-          this.showAlert = true;
-        },
-        next: (books) => {
-          if (books) {
-            this.books = books;
-          } else {
-            this.alertMessage = `EL libro con id ${this.id} no existe`;
-            this.alertClass = "danger";
-            this.showAlert = true;
-          }
-        }
+  constructor(
+    private route: ActivatedRoute,
+    private bookService: BookService
+  ) {}
+
+  ngOnInit(): void {
+    this.bookId = this.route.snapshot.paramMap.get('id');
+    if (this.bookId) {
+      this.bookService.getBookById(this.bookId).subscribe((book) => {
+        this.books = book as Books;
       });
     }
   }
 
-  updateCompany() {
-    if (this.id) {
-      this.booksService.updateBook(this.id, this.books).then(() => {
-        this.alertMessage = `Libro editado correctamente`;
-        this.alertClass = "success";
-        this.showAlert = true;
-      }).catch((error) => {
-        this.alertMessage = `Error al editar el libro: ${error}`;
-        this.alertClass = "danger";
-        this.showAlert = true;
-      });
+  updateBook(): void {
+    const updatedBook: Partial<Books> = {
+      title: this.books.title,
+      author: this.books.author,
+      description: this.books.description,
+      cover: this.books.cover,
+      price: this.books.price,
+      pages: this.books.pages
+    };
+
+    if (this.bookId) {
+      this.bookService.updateBookById(this.bookId, updatedBook)
+        .then(() => {
+          this.alertMessage = 'Libro actualizado exitosamente';
+          this.alertClass = 'success';
+          this.showAlert = true;
+        })
+        .catch((error) => {
+          this.alertMessage = 'Error al actualizar el libro';
+          this.alertClass = 'danger';
+          this.showAlert = true;
+          console.error('Error al actualizar el libro:', error);
+        });
+    } else {
+      this.alertMessage = 'ID del libro no es válido';
+      this.alertClass = 'danger';
+      this.showAlert = true;
     }
   }
 }

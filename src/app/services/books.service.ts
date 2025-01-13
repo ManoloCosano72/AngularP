@@ -1,16 +1,28 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, collectionData, updateDoc, doc, docData, deleteDoc, CollectionReference } from '@angular/fire/firestore';
+import {
+  Firestore,
+  collection,
+  addDoc,
+  query,
+  updateDoc,
+  doc,
+  docData,
+  deleteDoc,
+  where,
+  CollectionReference,
+  collectionData,
+} from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Books } from '../models/books';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BookService {
   bookCollection: CollectionReference;
 
   constructor(private firestore: Firestore) {
-    this.bookCollection = collection(this.firestore, 'books'); // Cambiar 'companies' por 'books'
+    this.bookCollection = collection(this.firestore, 'books');
   }
 
   // Obtener todos los libros
@@ -18,10 +30,10 @@ export class BookService {
     return collectionData(this.bookCollection, { idField: 'id' }) as Observable<Books[]>;
   }
 
-  // Obtener un libro por ID
-  getBook(id: string): Observable<Books | undefined> {
+  // Obtener un libro por su ID
+  getBookById(id: string): Observable<Books | null> {
     const bookDocRef = doc(this.firestore, `books/${id}`);
-    return docData(bookDocRef) as Observable<Books | undefined>;
+    return docData(bookDocRef, { idField: 'id' }) as Observable<Books | null>;
   }
 
   // Agregar un nuevo libro
@@ -36,8 +48,19 @@ export class BookService {
   }
 
   // Eliminar un libro
-  deleteBook(id: string): Promise<void> {
+  deleteBook(id: string | undefined): Promise<void> {
     const bookDocRef = doc(this.firestore, `books/${id}`);
     return deleteDoc(bookDocRef) as Promise<void>;
   }
+
+  // Obtener un libro por ISBN
+  getBookByIsbn(isbn: string): Observable<Books[]> {
+    const booksQuery = query(this.bookCollection, where('isbn', '==', isbn));
+    return collectionData(booksQuery, { idField: 'id' }) as Observable<Books[]>;
+  }
+  updateBookById(id: string, book: Partial<Books>): Promise<void> {
+    const bookDocRef = doc(this.firestore, `books/${id}`);
+    return updateDoc(bookDocRef, book);
+  }
+
 }
