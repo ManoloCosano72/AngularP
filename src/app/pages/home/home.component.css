@@ -1,92 +1,145 @@
-/* Contenedor principal */
+/* home.component.css */
+
+/* Contenedor principal de la página */
 .home-container {
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  text-align: center;
-  padding: 40px;
-  margin: 0 auto;
-  max-width: 900px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+  padding: 30px 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.home-container:hover {
-  transform: scale(1.02);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-}
-
-/* Encabezado */
+/* Estilo del encabezado */
 .header {
-  margin-bottom: 30px;
+  background-color: #f8f9fa;
+  padding: 40px 20px;
+  border-radius: 8px;
 }
 
 .header h1 {
-  font-size: 36px;
-  color: #2c3e50;
-  margin-bottom: 15px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  transition: color 0.3s ease;
-}
-
-.header h1:hover {
-  color: #2980b9;
+  font-size: 2.5rem;
+  color: #343a40;
 }
 
 .subtitle {
-  font-size: 20px;
-  color: #7f8c8d;
-  font-weight: 300;
-  line-height: 1.5;
-  margin-bottom: 20px;
-  transition: color 0.3s ease;
+  font-size: 1.2rem;
+  color: #6c757d;
 }
 
-.subtitle:hover {
-  color: #34495e;
-}
-
-/* Sección de características */
+/* Estilos de las características (feature items) */
 .features {
   display: flex;
-  flex-direction: column;
-  gap: 25px;
-  margin: 30px 0;
+  justify-content: space-around;
+  margin-top: 40px;
 }
 
 .feature-item {
-  background-color: #ffffff;
-  padding: 25px;
-  border-radius: 10px;
-  border: 1px solid #ecf0f1;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  text-align: left;
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-}
-
-.feature-item:hover {
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  transform: translateY(-5px);
+  max-width: 250px;
 }
 
 .feature-item h2 {
-  font-size: 26px;
-  color: #2c3e50;
-  margin-bottom: 12px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
 }
 
 .feature-item p {
-  font-size: 18px;
-  color: #7f8c8d;
-  margin: 0;
-  line-height: 1.6;
+  font-size: 1rem;
+  color: #6c757d;
 }
 
-/* Agregar un borde de color suave en el contenedor de las características */
-.features {
-  border-left: 4px solid #2980b9;
-  padding-left: 20px;
+/* Estilo para el título de las recomendaciones */
+h2 {
+  font-size: 2rem;
+  margin-top: 50px;
+  color: #343a40;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Estilo para la galería de libros */
+.gallery-container {
+  margin-top: 40px;
+}
+
+.book-gallery {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 30px;
+}
+
+.book-item {
+  max-width: 350px;
+  text-align: center;
+  border: 1px solid #dee2e6;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.book-item img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.book-item h3 {
+  font-size: 1.5rem;
+  color: #343a40;
+  margin-top: 15px;
+}
+
+.book-item p {
+  font-size: 1rem;
+  color: #6c757d;
+}
+
+/* Estilo de los botones */
+.btn {
+  background-color: #007bff;
+  color: white;
+  border-radius: 8px;
+  padding: 8px 20px;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
+
+/* Estilo para el mensaje de no disponibilidad de libros */
+.alert-warning {
+  margin-top: 20px;
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+}
+
+/* Estilos adicionales para la carga */
+.spinner-border {
+  margin-top: 50px;
+  width: 3rem;
+  height: 3rem;
+  border-width: 4px;
+}
+
+/* Estilos de los botones de navegación (anterior y siguiente) */
+.d-flex {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.d-flex button {
+  font-size: 1rem;
+  padding: 8px 20px;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+}
+
+.d-flex button:hover {
+  background-color: #0056b3;
 }

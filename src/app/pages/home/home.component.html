@@ -1,21 +1,47 @@
 <div class="home-container">
-  <header class="header">
-    <h1>Bienvenido a la Gestión de Libros</h1>
-    <p class="subtitle">Administra tus libros de forma sencilla y eficiente.</p>
+  <header class="header text-center">
+    <h1>Welcome to Book Management</h1>
+    <p class="subtitle">Manage your books easily and efficiently.</p>
   </header>
 
-  <section class="features">
+  <section class="features text-center">
     <div class="feature-item">
-      <h2>📚 Listado de Libros</h2>
-      <p>Visualiza todos los libros disponibles en un solo lugar.</p>
+      <h2>📚 Book List</h2>
+      <p>View all available books in one place.</p>
     </div>
     <div class="feature-item">
-      <h2>✏️ Edita Información</h2>
-      <p>Actualiza los detalles de tus libros favoritos fácilmente.</p>
+      <h2>✏️ Edit Information</h2>
+      <p>Update the details of your favorite books easily.</p>
     </div>
     <div class="feature-item">
-      <h2>🗑️ Elimina Libros</h2>
-      <p>Mantén tu biblioteca organizada eliminando libros no deseados.</p>
+      <h2>🗑️ Delete Books</h2>
+      <p>Keep your library organized by removing unwanted books.</p>
     </div>
   </section>
 </div>
+<h2>Look for our recommendations</h2>
+<section class="gallery-container text-center mt-4">
+  <!-- Loading spinner -->
+  <div *ngIf="isLoading" class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+
+  <!-- Book gallery -->
+  <div *ngIf="!isLoading && books.length > 0" class="book-gallery">
+    <div class="book-item">
+      <img [src]="'https://covers.openlibrary.org/b/id/' + books[currentIndex]?.cover_i + '-L.jpg'" alt="Book Cover" class="book-cover mb-3" />
+      <h3>{{ books[currentIndex]?.title }}</h3>
+      <p><strong>Author:</strong> {{ books[currentIndex]?.author_name?.join(', ') }}</p>
+      <!-- Navigation buttons -->
+      <div class="d-flex justify-content-center mt-3 gap-3">
+        <button (click)="previousBook()" class="btn btn-primary">← Previous</button>
+        <button (click)="nextBook()" class="btn btn-primary">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Message if no books are available -->
+  <div *ngIf="!isLoading && books.length === 0" class="alert alert-warning mt-4">
+    No book recommendations are available at the moment.
+  </div>
+</section>
