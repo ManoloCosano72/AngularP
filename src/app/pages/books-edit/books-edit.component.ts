@@ -1,66 +1,78 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { BookService } from '../../services/books.service';
-import { Books } from '../../models/books';
-import {FormsModule} from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { NotificationComponent } from "../../components/notification/notification.component";
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-books-edit',
-  templateUrl: './books-edit.component.html',
+  selector: 'app-book-edit',
   standalone: true,
-  imports: [
-    FormsModule
-  ],
+  imports: [CommonModule, FormsModule, NotificationComponent],
+  templateUrl: './books-edit.component.html',
   styleUrls: ['./books-edit.component.css']
 })
 export class BooksEditComponent implements OnInit {
-  books: Books = {} as Books;
-  bookId: string | null = null;
-  alertMessage: string = '';
-  alertClass: string = '';
+  book = {
+    author: '',
+    cover: '',
+    description: '',
+    isbn: '',
+    pages: 0,
+    price: 0,
+    title: ''
+  };
+  id: string = '';
   showAlert: boolean = false;
+  alertMessage: string = "";
+  alertClass: string = "";
 
-  constructor(
-    private route: ActivatedRoute,
-    private bookService: BookService
-  ) {}
+  constructor(private bookService: BookService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
-    this.bookId = this.route.snapshot.paramMap.get('id');
-    if (this.bookId) {
-      this.bookService.getBookById(this.bookId).subscribe((book) => {
-        this.books = book as Books;
+    this.id = this.route.snapshot.params['id'];
+    console.log("ID del libro:", this.id); // Verifica que el id sea el esperado
+    if (this.id) {
+      this.bookService.getBook(this.id).subscribe({
+        error: (error) => {
+          this.alertMessage = `Error al cargar el libro: ${error}`;
+          this.alertClass = "danger";
+          this.showAlert = true;
+        },
+        next: (book) => {
+          if (book) {
+            this.book = book;
+          } else {
+            this.alertMessage = `El libro con id ${this.id} no existe`;
+            this.alertClass = "danger";
+            this.showAlert = true;
+          }
+        }
       });
     }
   }
 
-  updateBook(): void {
-    const updatedBook: Partial<Books> = {
-      title: this.books.title,
-      author: this.books.author,
-      description: this.books.description,
-      cover: this.books.cover,
-      price: this.books.price,
-      pages: this.books.pages
-    };
 
-    if (this.bookId) {
-      this.bookService.updateBookById(this.bookId, updatedBook)
-        .then(() => {
-          this.alertMessage = 'Libro actualizado exitosamente';
-          this.alertClass = 'success';
-          this.showAlert = true;
-        })
-        .catch((error) => {
-          this.alertMessage = 'Error al actualizar el libro';
-          this.alertClass = 'danger';
-          this.showAlert = true;
-          console.error('Error al actualizar el libro:', error);
-        });
+  updateBook() {
+    console.log("Datos a actualizar:", this.book); // Esto debería mostrar los datos modificados en la consola
+    if (this.id && this.book.title && this.book.author && this.book.price && this.book.pages) {
+      this.bookService.updateBook(this.id, this.book).then(() => {
+        this.alertMessage = `Libro editado correctamente`;
+        this.alertClass = "success";
+        this.showAlert = true;
+      }).catch((error) => {
+        console.error('Error al editar el libro:', error);
+        this.alertMessage = `Error al editar el libro: ${error.message || error}`;
+        this.alertClass = "danger";
+        this.showAlert = true;
+      });
     } else {
-      this.alertMessage = 'ID del libro no es válido';
+      this.alertMessage = 'Por favor, rellena todos los campos requeridos.';
       this.alertClass = 'danger';
       this.showAlert = true;
     }
   }
+
+
 }

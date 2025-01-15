@@ -1,83 +1,87 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { BookService } from '../../services/books.service';
 import { Books } from '../../models/books';
 import { NotificationComponent } from '../../components/notification/notification.component';
 
 @Component({
-  selector: 'app-books-add',
+  selector: 'app-book-add',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, NotificationComponent],
   templateUrl: './books-add.component.html',
-  styleUrls: ['./books-add.component.css'], // Corregido "styleUrl" a "styleUrls"
+  styleUrls: ['./books-add.component.css'],
 })
-export class BooksAddComponent {
+export class BookAddComponent {
   showAlert: boolean = false;
-  alertMessage: string = "";
-  alertClass: string = "";
-  booksForm = new FormGroup({
-    isbn: new FormControl(''),
-    title: new FormControl(''),
-    author: new FormControl(''),
-    description: new FormControl(''),
-    cover: new FormControl(''),
-    price: new FormControl(''),
-    pages: new FormControl(''),
+  alertMessage: string = '';
+  alertClass: string = '';
+
+  // Formulario reactivo para el libro con validaciones
+  bookForm = new FormGroup({
+    title: new FormControl('', [Validators.required]),
+    author: new FormControl('', [Validators.required]),
+    description: new FormControl('', [Validators.required]),
+    isbn: new FormControl('', [Validators.required]),
+    pages: new FormControl(0, [Validators.required, Validators.min(1)]), // Asegura que haya al menos 1 página
+    price: new FormControl(0, [Validators.required, Validators.min(0)]), // Asegura que el precio no sea negativo
+    cover: new FormControl('', [Validators.required]),
   });
 
-  constructor(private booksService: BookService) {}
+  constructor(private bookService: BookService) {}
 
-  // Validación asincrónica del ISBN
-  validateIsbn(): Promise<boolean> {
-    const isbn = this.booksForm.value.isbn;
-    return new Promise((resolve) => {
-      if (isbn) {
-        this.booksService.getBookByIsbn(isbn).subscribe({
-          next: (books) => {
-            if (books.length > 0) {
-              this.booksForm.controls['isbn'].setErrors({ isbnExists: true });
-              resolve(true); // ISBN ya existe
-            } else {
-              resolve(false); // ISBN es único
-            }
-          },
-          error: () => resolve(false), // En caso de error asumimos que el ISBN no existe
-        });
-      } else {
-        resolve(false); // Si no hay ISBN en el formulario
-      }
-    });
-  }
-
-  // Envío del formulario con validación de ISBN
-  async submitBooks() {
-    const isbnExists = await this.validateIsbn();
-    if (isbnExists) {
-      this.alertMessage = 'El ISBN ya está en uso. No se puede añadir el libro.';
+  // Método para enviar los datos del formulario
+  async submitBook() {
+    // Verifica si todos los campos están completos y son válidos
+    if (this.bookForm.invalid) {
+      this.alertMessage = 'Por favor, completa todos los campos correctamente.';
       this.alertClass = 'danger';
       this.showAlert = true;
-      return; // Detener el proceso si el ISBN ya existe
+      return;
     }
 
+    // Obtén el valor del ISBN
+    const isbn = this.bookForm.value.isbn?.trim();
+    if (!isbn) {
+      this.alertMessage = 'El ISBN es obligatorio.';
+      this.alertClass = 'danger';
+      this.showAlert = true;
+      return;
+    }
+
+    // Comprobar si el ISBN ya existe
+    const isbnExists = await this.bookService.checkIsbnExists(isbn);
+    if (isbnExists) {
+      this.alertMessage = 'El ISBN ya está registrado.';
+      this.alertClass = 'danger';
+      this.showAlert = true;
+      return;
+    }
+
+    // Creación del objeto "Books" sin incluir un ID (Firestore lo genera automáticamente)
     const newBook: Books = {
-      isbn: this.booksForm.value.isbn ?? "",
-      title: this.booksForm.value.title ?? "",
-      author: this.booksForm.value.author ?? "",
-      description: this.booksForm.value.description ?? "",
-      cover: this.booksForm.value.cover ?? "",
-      price: Number(this.booksForm.value.price) ?? 0,
-      pages: Number(this.booksForm.value.pages) ?? 0,
+      title: this.bookForm.value.title?.trim() ?? '',
+      author: this.bookForm.value.author?.trim() ?? '',
+      description: this.bookForm.value.description?.trim() ?? '',
+      isbn: isbn,
+      pages: this.bookForm.value.pages ?? 0,
+      price: this.bookForm.value.price ?? 0,
+      cover: this.bookForm.value.cover?.trim() ?? '',
     };
 
-    this.booksService.addBook(newBook).then(() => {
-      this.alertMessage = `Libro añadido: ${this.booksForm.value.isbn}`;
-      this.alertClass = "success";
+    // Agregar el nuevo libro usando el servicio
+    this.bookService.addBook(newBook).then(() => {
+      // Mostrar mensaje de éxito
+      this.alertMessage = `Libro "${this.bookForm.value.title}" añadido correctamente.`;
+      this.alertClass = 'success';
       this.showAlert = true;
-      this.booksForm.reset();
+
+      // Reiniciar el formulario
+      this.bookForm.reset();
     }).catch((error) => {
-      this.alertMessage = `Error al añadir el libro ${this.booksForm.value.isbn}: ${error}`;
-      this.alertClass = "danger";
+      // Manejar errores y mostrar un mensaje
+      this.alertMessage = `Error al añadir el libro: ${error.message}`;
+      this.alertClass = 'danger';
       this.showAlert = true;
     });
   }

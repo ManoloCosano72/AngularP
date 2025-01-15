@@ -1,0 +1,91 @@
+/* Contenedor principal */
+.container {
+  max-width: 800px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  margin-top: 2rem;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Título del formulario */
+h2 {
+  font-size: 2rem;
+  color: #343a40;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 0.5rem;
+}
+
+/* Labels */
+label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #495057;
+  margin-bottom: 0.5rem;
+}
+
+/* Inputs */
+.form-control {
+  font-size: 1rem;
+  padding: 0.75rem;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Inputs: focus */
+.form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
+
+/* Botón de enviar */
+.btn-primary {
+  background-color: #007bff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Botón: hover */
+.btn-primary:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+/* Botón: desactivado */
+button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+/* Mensajes de error */
+.text-danger {
+  font-size: 0.85rem;
+  color: #dc3545;
+  margin-top: 0.25rem;
+}
+
+/* Espaciado entre los campos */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+/* Botón responsive */
+.d-grid .btn {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .d-grid .btn {
+    width: auto;
+  }
+}
