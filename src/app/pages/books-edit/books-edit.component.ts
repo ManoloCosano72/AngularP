@@ -28,7 +28,7 @@ export class BooksEditComponent implements OnInit {
   alertMessage: string = "";
   alertClass: string = "";
 
-  constructor(private bookService: BookService, private route: ActivatedRoute, private router: Router) {}
+  constructor(private bookService: BookService, private route: ActivatedRoute, private  router: Router) {}
 
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
