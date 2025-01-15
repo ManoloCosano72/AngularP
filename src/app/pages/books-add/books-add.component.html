@@ -1,7 +1,7 @@
 <section class="container mt-4">
   <h2 class="">Add Book</h2>
   <app-notification *ngIf="showAlert" [alertClass]="alertClass" [alertMessage]="alertMessage"></app-notification>
-  <form [formGroup]="booksForm" (submit)="submitBooks()">
+  <form [formGroup]="bookForm" (submit)="submitBook()">
     <div class="form-group mb-4">
       <label for="isbn">ISBN</label>
       <input
@@ -10,6 +10,10 @@
         type="text"
         formControlName="isbn"
       />
+      <!-- Mostrar error si el ISBN está vacío -->
+      <div *ngIf="bookForm.get('isbn')?.touched && bookForm.get('isbn')?.hasError('required')" class="text-danger">
+        ISBN es obligatorio.
+      </div>
     </div>
     <div class="form-group mb-4">
       <label for="title">Title</label>
@@ -19,6 +23,10 @@
         type="text"
         formControlName="title"
       />
+      <!-- Mostrar error si el título está vacío -->
+      <div *ngIf="bookForm.get('title')?.touched && bookForm.get('title')?.hasError('required')" class="text-danger">
+        El título es obligatorio.
+      </div>
     </div>
 
     <div class="form-group mb-4">
@@ -29,6 +37,10 @@
         type="text"
         formControlName="author"
       />
+      <!-- Mostrar error si el autor está vacío -->
+      <div *ngIf="bookForm.get('author')?.touched && bookForm.get('author')?.hasError('required')" class="text-danger">
+        El autor es obligatorio.
+      </div>
     </div>
     <div class="form-group mb-4">
       <label for="description">Description</label>
@@ -38,6 +50,10 @@
         type="text"
         formControlName="description"
       />
+      <!-- Mostrar error si la descripción está vacía -->
+      <div *ngIf="bookForm.get('description')?.touched && bookForm.get('description')?.hasError('required')" class="text-danger">
+        La descripción es obligatoria.
+      </div>
     </div>
     <div class="form-group mb-4">
       <label for="cover">Cover</label>
@@ -47,6 +63,10 @@
         type="text"
         formControlName="cover"
       />
+      <!-- Mostrar error si la portada está vacía -->
+      <div *ngIf="bookForm.get('cover')?.touched && bookForm.get('cover')?.hasError('required')" class="text-danger">
+        La portada es obligatoria.
+      </div>
     </div>
     <div class="form-group mb-4">
       <label for="price">Price</label>
@@ -56,6 +76,13 @@
         type="number"
         formControlName="price"
       />
+      <!-- Mostrar error si el precio es negativo o está vacío -->
+      <div *ngIf="bookForm.get('price')?.touched && bookForm.get('price')?.hasError('required')" class="text-danger">
+        El precio es obligatorio.
+      </div>
+      <div *ngIf="bookForm.get('price')?.touched && bookForm.get('price')?.hasError('min')" class="text-danger">
+        El precio no puede ser negativo.
+      </div>
     </div>
     <div class="form-group mb-4">
       <label for="pages">Pages</label>
@@ -65,9 +92,16 @@
         type="number"
         formControlName="pages"
       />
+      <!-- Mostrar error si las páginas no están completas o son menos de 1 -->
+      <div *ngIf="bookForm.get('pages')?.touched && bookForm.get('pages')?.hasError('required')" class="text-danger">
+        Las páginas son obligatorias.
+      </div>
+      <div *ngIf="bookForm.get('pages')?.touched && bookForm.get('pages')?.hasError('min')" class="text-danger">
+        El número de páginas no puede ser menor que 1.
+      </div>
     </div>
     <div class="d-grid gap-2 d-md-block">
-      <button type="submit" class="btn btn-primary mt-3 "><i class="bi bi-plus-lg"></i> Add</button>
+      <button type="submit" class="btn btn-primary mt-3" [disabled]="bookForm.invalid"><i class="bi bi-plus-lg"></i> Add</button>
     </div>
   </form>
 </section>

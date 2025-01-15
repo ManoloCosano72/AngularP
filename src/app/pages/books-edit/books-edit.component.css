@@ -1,0 +1,90 @@
+/* Estilos generales para el contenedor del formulario */
+form {
+  max-width: 600px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+}
+
+/* Estilos para los encabezados */
+h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* Estilos para los labels */
+label {
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 5px;
+  display: block;
+}
+
+/* Estilos para los inputs */
+input.form-control {
+  border-radius: 6px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  width: 100%;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+input.form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  outline: none;
+}
+
+/* Botón de submit */
+button[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+/* Estilo para el botón deshabilitado */
+button[type="submit"]:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+/* Estilos para inputs deshabilitados */
+input.form-control[disabled] {
+  background-color: #e9ecef;
+  opacity: 1;
+  cursor: not-allowed;
+}
+
+/* Estilo para mensajes de error */
+.text-danger {
+  font-size: 0.9rem;
+  color: #dc3545;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+
+/* Ajuste para dispositivos pequeños */
+@media (max-width: 576px) {
+  form {
+    padding: 15px;
+  }
+}
